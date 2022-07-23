@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <link
+      rel="shortcut icon"
+      type="image/jpeg"
+      href="D:/MINI PROJECT/FINAL/PICS/icon.jpeg"
+    />
+    <title>GameZone</title>
+    <link rel="stylesheet" type="text/css" href="Createuser.css" />
+    <body>
+      <div class="loginbox">
+        <img src="D:/MINI PROJECT/FINAL/PICS/avatar.png" class="avatar" />
+        <center><h1>GameZone</h1></center>
+        <center><h3>Sign Up</h3></center>
+        <form>
+          <p>First Name</p>
+          <input type="text" id="Fn" name="" placeholder="Enter First Name" />
+          <p>Last Name</p>
+          <input type="text" id="Ln" name="" placeholder="Enter Last Name" />
+          <p>Create Username</p>
+          <input type="text" id="Un" name="" placeholder="Enter Username" />
+          <p>Create Password</p>
+          <input type="text" id="Pw" name="" placeholder="Enter password" />
+
+          <button type="button" class="submit" onclick="database()">
+            Submit
+          </button>
+        </form>
+      </div>
+    </body>
+  </head>
+
+  <script>
+    function database() {
+      var fname;
+      var lname;
+      var username;
+      var password;
+      fname = document.getElementById("Fn").value;
+      lname = document.getElementById("Ln").value;
+      username = document.getElementById("Un").value;
+      password = document.getElementById("Pw").value;
+      if (fname == "") alert("Please Enter First Name");
+      if (lname == "") alert("Please Enter Last Name");
+      if (username == "") alert("Please Enter UserName");
+      if (password == "") alert("Please Enter Password");
+      //console.log("===");
+      if (fname != "" && lname != "" && username != "" && password != "")
+        enterdatabase();
+      function enterdatabase() {
+        console.log("++++");
+        var request = new XMLHttpRequest();
+        request.open(
+          "POST",
+          "http://localhost:8080/MINI/rest/hello/create",
+          true
+        );
+        request.setRequestHeader("Content-Type", "application/json");
+        var body =
+          '{"firstName":"' +
+          fname +
+          '", "lastName":"' +
+          lname +
+          '","userName":"' +
+          username +
+          '", "password":"' +
+          password +
+          '"}';
+        request.onload = function () {
+          var data = this.response;
+          if (data[0] == "f") alert("This username is already taken");
+          else window.location.href = "login.html";
+          console.log("received: ", data);
+        };
+        request.send(body);
+      }
+    }
+  </script>
+</html>
